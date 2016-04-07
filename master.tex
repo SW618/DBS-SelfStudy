@@ -1,0 +1,214 @@
+\documentclass[a4paper,11pt]{memoir}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}    
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{listings,hyperref,color}
+
+\usepackage{titlesec}
+
+\usepackage{tipa}
+
+\definecolor{lightgray}{rgb}{0.95,0.95,0.95}
+\definecolor{lightgreen}{rgb}{0,0.6,0}
+
+\titleformat{\section}
+{\normalfont\large\bfseries}
+{\thesection\hskip 9pt\textpipe\hskip 9pt}
+{0pt}
+{}
+
+\lstset{
+	language=sql,
+	frame=tblr,
+	keywordstyle=\color{blue}\textbf,
+	backgroundcolor=\color{lightgray},
+	commentstyle=\color{mygreen},
+	tabsize=2
+}
+
+\begin{document}
+\chapter{Self Study 5}
+
+\section{How many Danish language movies are in the database?}
+\begin{lstlisting}
+select count(*) 
+	from movie
+	where language = 'Danish';
+\end{lstlisting}
+
+\section{For each year, what is the total number of reviews to movies from that year?}
+\begin{lstlisting}
+select year, count(*)
+	from movie as m
+	join ratings as r on r.movieId = m.id
+	group by year
+	order by year;
+\end{lstlisting}
+
+\section{Which movies have John Travolta and Uma Thurman starred in together?}
+\begin{lstlisting}
+select title, year
+	from movie 
+	join involved as i1 on i1.movieId = movie.id
+	join involved as i2 on i2.movieId = movie.id
+	join person as p1 on p1.id = i1.personId
+	join person as p2 on p2.id = i2.personId
+	where p1.name = 'John Travolta' and p2.name = 'Uma Thurman';
+\end{lstlisting}
+
+\section{How many actors and directors have a ?rst name starting with ``Q''?}
+\begin{lstlisting}
+select count(*) 
+	from involved as i
+	join person as p on i.personId = p.id
+	where p.name LIKE 'Q%';
+\end{lstlisting}
+
+\section{How many users rated at least 3 movies?}
+\begin{lstlisting}
+select COUNT(*)
+from 
+(
+	select COUNT(*)
+	from ratings 
+	group by userId
+	having count(*) >= 3
+) as ratedby3ormore;
+\end{lstlisting}
+
+\section{What is the name and birth year of all actors in ``Pulp Fiction''?}
+\begin{lstlisting}
+select name, birthdate
+from person as p
+join involved as i on p.id = i.personId
+join movie as m on m.id = i.movieId
+where m.title = 'Pulp Fiction'
+order by birthdate;
+\end{lstlisting}
+
+\section{What are the titles and years of all movies from the 1980s that John Travolta starred in?}
+\begin{lstlisting}
+select title, year
+from movie as m
+join involved as i on i.movieId = m.id
+join person as p on p.id = i.personId
+where p.name = 'John Travolta' 
+	and m.year >= 1980 
+	and m.year  < 1990
+order by year;
+\end{lstlisting}
+
+\section{What are the top-2 highest rated movies (average) from the 1990s according to the users?}
+\begin{lstlisting}
+select title, avg(rating)
+from movie as m
+join ratings as r on r.movieId = m.id
+where m.year >= 1990 
+  and m.year  < 2000
+group by title
+order by avg(rating) DESC
+limit 2;
+
+\end{lstlisting}
+
+\section{What are the top-2 highest rated movies (average) from the 1990s according to at least 2 users?}
+\begin{lstlisting}
+select title, avg(rating)
+	from movie as m
+	join ratings as r on r.movieId = m.id
+	where m.year >= 1990 
+	  and m.year  < 2000
+	group by title
+	having count(*) >= 2
+	order by avg(rating) DESC
+	limit 2;
+\end{lstlisting}
+
+\section{In 1994, what was the average rating of a movie for each language?}
+\begin{lstlisting}
+select language, avg(rating)
+	from movie as m
+	join ratings as r on r.movieId = m.id
+	where m.year = 1994
+	group by language;
+\end{lstlisting}
+
+\section{Which actors in ``Pulp Fiction'' have never, before or after, starred in the same movie as one of the other actors in ``Pulp Fiction''?}
+\begin{lstlisting}
+
+\end{lstlisting}
+
+\section{Which movie starring John Travolta has the highest user ratings?}
+\begin{lstlisting}
+select m.title, avg(rating)
+	from movie as m
+	join ratings as r on r.movieId = m.id
+	join involved as i1 on i1.movieId = m.id
+	join person as p1 on p1.id = i1.personId
+	where p1.name = 'John Travolta'
+	group by m.title
+	order by avg(rating);
+\end{lstlisting}
+
+\section{How many actresses have not been alive at the same time as Charles Chaplin?}
+\begin{lstlisting}
+with cc as (select * from person where name = 'Charles Chaplin')
+
+select count(*)
+	from person as p, cc
+	where p.gender = 'f' 
+	and (p.birthdate > cc.deathdate or cc.birthdate > p.deathdate);
+\end{lstlisting}
+
+\section{What is the average rating of movies from each genre?}
+\begin{lstlisting}
+select genre, avg(rating)
+	from genre as g
+	join ratings as r on r.movieId = g.movieId
+	group by genre
+	order by avg(rating);
+\end{lstlisting}
+
+\section{What is the average rating of movies from each genre? List only genres with at least 2 ratings.}
+\begin{lstlisting}
+select genre, avg(rating)
+	from genre as g
+	join ratings as r on r.movieId = g.movieId
+	group by genre
+	having count(*) >=2;
+\end{lstlisting}
+
+\section{Which movie has the largest number of 2-link references?}
+\begin{lstlisting}
+select m.title, count(*)
+	from movie as m, movieref as r1, movieref as r2
+	where m.id = r1.fromId and r1.toId = r2.fromId
+	group by m.id, m.title
+	order by count(*) DESC
+	limit 1;
+\end{lstlisting}
+
+\section{How many actors have also been active as director of at least one movie?}
+\begin{lstlisting}
+select count(*) 
+	from (select count(*)
+		from involved as i1
+		join involved as i2 on i1.personId = i2.personId
+		where i1.role = 'director' and i2.role = 'actor'
+		group by i1.personId) actordirectors;
+\end{lstlisting}
+
+\section{Which two genres are most often linked to the same movie? (Note that each movie has a set of genres.)}
+\begin{lstlisting}
+select g1.genre, g2.genre, count(*)
+	from genre as g1
+	join genre as g2 on g1.movieId = g2.movieId
+	where g1.genre != g2.genre
+	group by g1.genre, g2.genre
+	having g1.genre < g2.genre // To avoid symetric dublicates
+	order by count(*) DESC
+	limit 1;
+\end{lstlisting}
+
+\end{document}
