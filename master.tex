@@ -25,70 +25,89 @@
 {}
 
 \lstset{
-	language=sql,
 	frame=tblr,
 	keywordstyle=\color{blue}\textbf,
 	backgroundcolor=\color{lightgray},
-	commentstyle=\color{mygreen},
+	commentstyle=\color{lightgreen},
 	basicstyle=\footnotesize,
 	tabsize=2
 }
 
 \begin{document}
+\pagestyle{plain}
 \chapter{Self Study 5}
 
 \section{How many Danish language movies are in the database?}
-\lstinputlisting{sql/1.sql}
+\lstinputlisting[language=sql]{sql/1.sql}
+\lstinputlisting{sql_res/1.sql}
 
 \section{For each year, what is the total number of reviews to movies from that year?}
-\lstinputlisting{sql/2.sql}
+\lstinputlisting[language=sql]{sql/2.sql}
+\lstinputlisting{sql_res/2.sql}
 
 \section{Which movies have John Travolta and Uma Thurman starred in together?}
-\lstinputlisting{sql/3.sql}
+\lstinputlisting[language=sql]{sql/3.sql}
+\lstinputlisting{sql_res/3.sql}
 
-\section{How many actors and directors have a ?rst name starting with ``Q''?}
-\lstinputlisting{sql/4.sql}
+\section{How many actors and directors have a first name starting with ``Q''?}
+\lstinputlisting[language=sql]{sql/4.sql}
+\lstinputlisting{sql_res/4.sql}
 
 \section{How many users rated at least 3 movies?}
-\lstinputlisting{sql/5.sql}
+\lstinputlisting[language=sql]{sql/5.sql}
+\lstinputlisting{sql_res/5.sql}
 
 \section{What is the name and birth year of all actors in ``Pulp Fiction''?}
-\lstinputlisting{sql/6.sql}
+\lstinputlisting[language=sql]{sql/6.sql}
+\lstinputlisting{sql_res/6.sql}
 
 \section{What are the titles and years of all movies from the 1980s that John Travolta starred in?}
-\lstinputlisting{sql/7.sql}
+\lstinputlisting[language=sql]{sql/7.sql}
+\lstinputlisting{sql_res/7.sql}
 
 \section{What are the top-2 highest rated movies (average) from the 1990s according to the users?}
-\lstinputlisting{sql/8.sql}
+\lstinputlisting[language=sql]{sql/8.sql}
+\lstinputlisting{sql_res/8.sql}
 
 \section{What are the top-2 highest rated movies (average) from the 1990s according to at least 2 users?}
-\lstinputlisting{sql/9.sql}
+\lstinputlisting[language=sql]{sql/9.sql}
+\lstinputlisting{sql_res/9.sql}
 
 \section{In 1994, what was the average rating of a movie for each language?}
-\lstinputlisting{sql/10.sql}
+\lstinputlisting[language=sql]{sql/10.sql}
+\lstinputlisting{sql_res/10.sql}
 
 \section{Which actors in ``Pulp Fiction'' have never, before or after, starred in the same movie as one of the other actors in ``Pulp Fiction''?}
-\lstinputlisting{sql/11.sql}
+\lstinputlisting[language=sql]{sql/11.sql}
+\lstinputlisting{sql_res/11.sql}
 
 \section{Which movie starring John Travolta has the highest user ratings?}
-\lstinputlisting{sql/12.sql}
+\lstinputlisting[language=sql]{sql/12.sql}
+\lstinputlisting{sql_res/12.sql}
 
 \section{How many actresses have not been alive at the same time as Charles Chaplin?}
-\lstinputlisting{sql/13.sql}
+\lstinputlisting[language=sql]{sql/13.sql}
+\lstinputlisting{sql_res/13.sql}
 
 \section{What is the average rating of movies from each genre?}
-\lstinputlisting{sql/14.sql}
+\lstinputlisting[language=sql]{sql/14.sql}
+\lstinputlisting{sql_res/14.sql}
 
 \section{What is the average rating of movies from each genre? List only genres with at least 2 ratings.}
-\lstinputlisting{sql/15.sql}
+\lstinputlisting[language=sql]{sql/15.sql}
+\lstinputlisting{sql_res/15.sql}
 
 \section{Which movie has the largest number of 2-link references?}
-\lstinputlisting{sql/16.sql}
+\lstinputlisting[language=sql]{sql/16_2.sql}
+\lstinputlisting{sql_res/16.sql}
 
 \section{How many actors have also been active as director of at least one movie?}
-\lstinputlisting{sql/17.sql}
+\lstinputlisting[language=sql]{sql/17_2.sql}
+\lstinputlisting{sql_res/17.sql}
+
 
 \section{Which two genres are most often linked to the same movie? (Note that each movie has a set of genres.)}
-\lstinputlisting{sql/18.sql}
+\lstinputlisting[language=sql]{sql/18.sql}
+\lstinputlisting{sql_res/18.sql}
 
 \end{document}

@@ -14,6 +14,6 @@ act as (
 			and i1.movieid != (select id from movie where title = 'Pulp Fiction')
 )
 
-select * from pf
+select p.name from pf
 	join person as p on p.id = pf.personid
 	where not exists (select NULL from act where act.personid = pf.personid);

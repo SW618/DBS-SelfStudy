@@ -1,3 +1,3 @@
 select count(*) 
-	from movie
-	where language = 'Danish';
+	from movie as m
+	where m.language = 'Danish';

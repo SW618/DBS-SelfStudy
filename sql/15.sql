@@ -1,5 +1,5 @@
-select genre, avg(rating)
+select g.genre, avg(r.rating)
 	from genre as g
 	join ratings as r on r.movieId = g.movieId
-	group by genre
-	having count(*) >=2;
+	group by g.genre
+	having count(r.rating) >=2;

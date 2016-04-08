@@ -1,8 +1,8 @@
-select title, avg(rating)
-from movie as m
-join ratings as r on r.movieId = m.id
-where m.year >= 1990 
-  and m.year  < 2000
-group by title
-order by avg(rating) DESC
-limit 2;
+select m.title, avg(r.rating)
+	from movie as m
+	join ratings as r on r.movieId = m.id
+	where m.year >= 1990 
+	  and m.year <= 1999
+	group by m.title
+	order by avg(r.rating) DESC
+	limit 2;

@@ -1,4 +1,4 @@
-select m.title, m.year
+select m.title
 	from movie as m
 	join involved as i1 on i1.movieId = m.id
 	join involved as i2 on i2.movieId = m.id

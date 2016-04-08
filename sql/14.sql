@@ -1,5 +1,5 @@
-select genre, avg(rating)
+select g.genre, avg(r.rating)
 	from genre as g
 	join ratings as r on r.movieId = g.movieId
-	group by genre
-	order by avg(rating);
+	group by g.genre
+	order by avg(r.rating) DESC;
