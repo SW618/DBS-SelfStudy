@@ -4,7 +4,7 @@
 \usepackage[T1]{fontenc}    
 \usepackage[margin=2.5cm]{geometry}
 \usepackage{listings,hyperref,color}
-
+\usepackage[final]{pdfpages}
 \usepackage{titlesec}
 
 \usepackage{tipa}
@@ -30,12 +30,74 @@
 	backgroundcolor=\color{lightgray},
 	commentstyle=\color{lightgreen},
 	basicstyle=\footnotesize,
+	showstringspaces=false,
 	tabsize=2
 }
 
+
+\copypagestyle{plainnotice}{plain}
+\makeevenhead{plainnotice}{S{\o}ren Hvidberg Frandsen, sfrand12 \\ Troels Beck Kr{\o}gh, tkragh13}{}{Marc Tom Thorgersen, mthorg13 \\ Mathias Sass Michno mmichn13}% not used with "openright"
+\makeoddhead{plainnotice}{S{\o}ren Hvidberg Frandsen, sfrand12 \\ Troels Beck Kr{\o}gh, tkragh13}{}{Marc Tom Thorgersen, mthorg13 \\ Mathias Sass Michno mmichn13}% not used with "openright"
+\aliaspagestyle{chapter}{plainnotice}
+
+
 \begin{document}
-\pagestyle{plain}
-\chapter{Self Study 5}
+\includepdf[pages=-]{mmichn13mthorg13sfrand12tkragh13.pdf}
+\pagestyle{plainnotice}
+\part*{Self Study 5}
+\chapter{Setting up Postgres}
+Install PostgreSQL from \url{http://www.postgresql.org/download/}.
+Ensure that the \texttt{pqsl} is in the path of your preferred terminal.
+Ensure that PostgreSQL is running by browsing to it in the pgAdmin III tool.
+Ensure that PostgreSQL is running on port 5432 by looking in the pgAdmin III tool. 
+It might be nesseary to set a enviroment varible with the password: \texttt{export PGPASSWORD=yourpasswordhere}.
+Then run the following commands:
+\begin{lstlisting}[language=bash]
+psql -U postgres -h localhost -p 5432 -c "create database ss"
+# OUTPUT:
+CREATE DATABASE
+
+psql -U postgres -h localhost -p 5432 -d ss -f schema.sql
+# OUTPUT:
+REATE TABLE
+CREATE TABLE
+/* ... */
+
+psql -U postgres -h localhost -p 5432 -d ss -f insert.sql
+# OUTPUT:
+INSERT 0 251
+INSERT 0 58179
+/* ... */
+
+\end{lstlisting}
+
+Henceforth the database is ready to use, and should have the appropriate data. 
+The database can be queried in the commandline by:
+\begin{lstlisting}[language=bash]
+# Using a query directly
+psql -U postgres -h localhost -p 5432 -d ss -c "select * from movie limit 10;"
+
+# Using a file (query.sql)
+psql -U postgres -h localhost -p 5432 -d ss -f query.sql
+
+# Or interactive (NOT RECOMMENDED)
+psql -U postgres -h localhost -p 5432 -d ss
+\end{lstlisting}
+Alternatively the GUI query tool can be used, this is opened though the pgAdmin III tool. 
+
+\chapter{Updates to the database}
+\begin{lstlisting}[language=sql]
+update person
+	set gender='f'
+	where id = 666;
+\end{lstlisting}
+\begin{lstlisting}[language=sql]
+update movie
+	set title='Calculator Jokes'
+	where id = 8008135;
+\end{lstlisting}
+
+\chapter{Queries}
 
 \section{How many Danish language movies are in the database?}
 \lstinputlisting[language=sql]{sql/1.sql}
@@ -109,5 +171,6 @@
 \section{Which two genres are most often linked to the same movie? (Note that each movie has a set of genres.)}
 \lstinputlisting[language=sql]{sql/18.sql}
 \lstinputlisting{sql_res/18.sql}
+
 
 \end{document}
